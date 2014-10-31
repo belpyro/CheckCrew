@@ -51,6 +51,8 @@ namespace CheckCrew
                     _partsDictionary.Add(crewedPart, items);
                 }
             }
+
+            
         }
 
         private void SetResources(bool state)
@@ -92,11 +94,21 @@ namespace CheckCrew
 
         private void FillParts(Part parent, ICollection<Part> chain)
         {
-            foreach (var child in parent.children.Where(child => !child.Modules.OfType<VesselSeparator>().Any()))
+            foreach (var node in parent.attachNodes)
             {
-                chain.Add(child);
-                FillParts(child, chain);
+               if(node.attachedPart.Modules.OfType<VesselSeparator>().Any()) continue;
+
+                if (chain.Contains(node.attachedPart)) continue;
+
+                chain.Add(node.attachedPart);
+                FillParts(node.attachedPart, chain);
             }
+            
+            //foreach (var child in parent.children.Where(child => !child.Modules.OfType<VesselSeparator>().Any()))
+            //{
+            //    chain.Add(child);
+            //    FillParts(child, chain);
+            //}
         }
 
         void SetCrossFeed(bool state)
