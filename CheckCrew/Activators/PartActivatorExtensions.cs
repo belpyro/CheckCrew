@@ -9,22 +9,26 @@ namespace CheckCrew.Activators
     {
         public static void ActivateModule(this ModuleEngines module)
         {
+            module.isEnabled = true;            
             module.Events["Activate"].active = module.Events["Activate"].guiActive = true;
         }
 
         public static void ActivateModule(this ModuleRCS module)
         {
+            module.isEnabled = true;            
             module.Events["Enable"].active = module.Events["Enable"].guiActive = true;
             module.Enable();
         }
 
         public static void ActivateModule(this ModuleReactionWheel module)
         {
+            module.isEnabled = true;            
             module.State = ModuleReactionWheel.WheelState.Active;
         }
 
         public static void ActivateModule(this ModuleLight module)
         {
+            module.isEnabled = true;            
             module.Events["LightsOn"].active = module.Events["LightsOn"].guiActive = true;
         }
 
@@ -37,23 +41,27 @@ namespace CheckCrew.Activators
         {
             module.Shutdown();
             module.Events["Activate"].active = module.Events["Activate"].guiActive = false;
+            module.isEnabled = false;
         }
 
         public static void DeactivateModule(this ModuleRCS module)
         {
             module.Disable();
             module.Events["Enable"].active = module.Events["Enable"].guiActive = false;
+            module.isEnabled = false;
         }
 
         public static void DeactivateModule(this ModuleReactionWheel module)
         {
             module.State = ModuleReactionWheel.WheelState.Disabled;
+            module.isEnabled = false;
         }
 
         public static void DeactivateModule(this ModuleLight module)
         {
             module.LightsOff();
             module.Events["LightsOn"].active = module.Events["LightsOn"].guiActive = false;
+            module.isEnabled = false;
         }
 
         public static void DeactivateResource(this PartResource resource)
